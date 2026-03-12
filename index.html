@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Info Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+        }
+        h2 {
+            color: #333;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: left;
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            display: none; /* Hide initially */
+        }
+        .result p {
+            margin: 5px 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Number Info Finder</h2>
+        <p>Enter number to get details</p>
+        
+        <input type="text" id="phoneNumber" placeholder="e.g., 9876543210" maxlength="10">
+        <button onclick="findDetails()">Search Number</button>
+
+        <div class="result" id="resultBox">
+            <p><strong>Name:</strong> <span id="ownerName">-</span></p>
+            <p><strong>Address:</strong> <span id="ownerAddress">-</span></p>
+            <p><strong>Status:</strong> <span id="ownerStatus">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Yeh hamara local (bina API wala) database hai
+        const localDatabase = {
+            "9876543210": { name: "Rahul Sharma", address: "Gomti Nagar, Lucknow, UP", status: "Active" },
+            "9998887776": { name: "Amit Kumar", address: "Connaught Place, New Delhi", status: "Active" },
+            "8887776665": { name: "Priya Singh", address: "Andheri West, Mumbai, MH", status: "Active" }
+        };
+
+        function findDetails() {
+            let numberInput = document.getElementById("phoneNumber").value.trim();
+            let resultBox = document.getElementById("resultBox");
+            let nameField = document.getElementById("ownerName");
+            let addressField = document.getElementById("ownerAddress");
+            let statusField = document.getElementById("ownerStatus");
+
+            // Check if input is empty
+            if (numberInput === "") {
+                alert("Please enter a mobile number!");
+                return;
+            }
+
+            // Check details in our localDatabase object
+            if (localDatabase[numberInput]) {
+                let data = localDatabase[numberInput];
+                nameField.innerText = data.name;
+                addressField.innerText = data.address;
+                statusField.innerText = data.status;
+                nameField.style.color = "green";
+            } else {
+                nameField.innerText = "Record Not Found";
+                addressField.innerText = "N/A";
+                statusField.innerText = "N/A";
+                nameField.style.color = "red";
+            }
+
+            // Show the result box
+            resultBox.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
